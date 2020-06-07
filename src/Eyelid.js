@@ -18,8 +18,8 @@ class Eyelid {
         if (this.upperLidYPos > this.upperLidMinPos && this.lowerLidYPos < this.lowerLidMaxPos) {
             this.upperLidYPos = this.upperLidYPos - 2; 
             this.lowerLidYPos = this.lowerLidYPos + 2; 
-            this.upperLid.position(0, this.upperLidYPos);
-            this.lowerLid.position(0, this.lowerLidYPos);
+            // this.upperLid.position(0, this.upperLidYPos);
+            // this.lowerLid.position(0, this.lowerLidYPos);
         }
     }
 }

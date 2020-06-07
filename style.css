@@ -4,6 +4,17 @@ body {
     overflow: hidden;
 }
 
+@keyframes upperAnimation {
+    from {top: 0%;}
+    to {top: -50%;}
+}
+
+@keyframes lowerAnimation {
+    from {top: 50%;}
+    to {top: 100%;}
+}
+
+
 .upperLid {
     position: fixed;
     top: 0px;
@@ -12,6 +23,11 @@ body {
     height: 50%; 
     background-color: black;
     z-index: 1;
+    animation-name: upperAnimation;
+    animation-duration: 15s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    animation-delay: 2s;
 }
 
 .lowerLid {
@@ -22,6 +38,11 @@ body {
     left: 0px; 
     background-color: black;
     z-index: 1;
+    animation-name: lowerAnimation;
+    animation-duration: 15s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    animation-delay: 2s;
 }
 
 #glslCanvas {
