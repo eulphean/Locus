@@ -1,4 +1,6 @@
 let theshader; 
+let eyelid; 
+let upperLid; 
 
 function preload(){
   theShader = loadShader('shader.vert', 'shader.frag'); 
@@ -6,7 +8,10 @@ function preload(){
 
 // ------------------------------- Sketch Setup ------------------------------
 function setup() {
-  createCanvas(windowWidth, windowHeight, WEBGL);
+  let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+  canvas.parent('container');
+  canvas.style('z-index', 0); 
+  eyelid = new Eyelid(); 
   noStroke();
 }
 
@@ -17,6 +22,7 @@ function draw() {
   theShader.setUniform('u_resolution', [width, height]);
   theShader.setUniform('u_time', millis()/1000.0);
   theShader.setUniform('u_position', [width/2, height/2]); 
+  eyelid.draw(); 
 }
 
 // Window resize. 
