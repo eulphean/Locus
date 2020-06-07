@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bloom</title>
     <!-- P5 Library -->
+    <script type="text/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslCanvas/master/dist/GlslCanvas.js"></script>
     <script type="text/javascript" src="Library/p5.min.js"></script>
     <script type="text/javascript" src="Library/p5.dom.min.js"></script>
     <script type="text/javascript" src="src/main.js"></script>
@@ -16,8 +17,9 @@
   </head>
   <body>  
     <div id='container'>
-      <div class='upperLid'></div>
-      <div class='lowerLid'></div>
+      <canvas class="glslCanvas" data-fragment-url="shader.frag" width="900" height="900"></canvas>
+      <!-- <div class='upperLid'></div>
+      <div class='lowerLid'></div> -->
     </div>
   </body>
 </html>
