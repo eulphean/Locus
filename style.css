@@ -24,10 +24,10 @@ body {
     background-color: black;
     z-index: 1;
     animation-name: upperAnimation;
-    animation-duration: 15s;
-    animation-timing-function: ease-out;
+    animation-duration: 10s;
+    animation-timing-function: ease-in;
     animation-fill-mode: forwards;
-    animation-delay: 2s;
+    animation-delay: 1s;
 }
 
 .lowerLid {
@@ -39,10 +39,10 @@ body {
     background-color: black;
     z-index: 1;
     animation-name: lowerAnimation;
-    animation-duration: 15s;
-    animation-timing-function: ease-out;
+    animation-duration: 10s;
+    animation-timing-function: ease-in;
     animation-fill-mode: forwards;
-    animation-delay: 2s;
+    animation-delay: 1s;
 }
 
 #glslCanvas {

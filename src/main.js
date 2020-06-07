@@ -13,6 +13,6 @@ function setup() {
 // ------------------------------- Sketch Draw (loop) ------------------------
 function draw() {
   // Update eyelid based on what it's doing. 
-  eyelid.update();
   sandbox.setUniform("u_position", windowWidth/2, windowHeight/2);
+  noLoop();
 }
