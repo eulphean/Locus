@@ -1,9 +1,12 @@
-// ------------------------------------------------------- //
-// INNER SITE OF MY EXISTENCE.
-// ------------------------------------------------------- //
+#ifdef GL_ES
 
 precision mediump float;
 
+#endif
+
+// ------------------------------------------------------- //
+// INNER SITE OF MY EXISTENCE.
+// ------------------------------------------------------- //
 uniform float u_time;
 uniform vec2 u_resolution;
 uniform vec2 u_position;
