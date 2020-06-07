@@ -6,6 +6,8 @@ body {
 
 .upperLid {
     position: fixed;
+    top: 0px;
+    left: 0px;
     width: 100%; 
     height: 50%; 
     background-color: black;
@@ -16,14 +18,12 @@ body {
     position: fixed; 
     width: 100%; 
     height: 50%; 
-    top: 50%; 
+    top: 50%;
+    left: 0px; 
     background-color: black;
-    z-index: 1
+    z-index: 1;
 }
 
-/* #glslCanvas{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-} */
+#glslCanvas {
+    z-index: 0;;
+}
