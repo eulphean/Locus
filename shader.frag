@@ -69,8 +69,8 @@ void main(void)
 	m.x *= factor; // Remap incoming position based on the factor. 
 
 	// Testing the distance field. 
-	float a = distance(p, m);
-	vec3 col = mix(colA, colB, a); 
+	float d = distance(p, m)/abs(sin(u_time)*0.5);
+	vec3 col = mix(colA, colB, d); 
 
 	// float rad_pupil = 0.35 + 0.12 * sin(0.51 * u_time);
 	
