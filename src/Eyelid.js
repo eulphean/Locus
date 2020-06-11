@@ -2,13 +2,13 @@ class Eyelid {
     constructor() {
         // Acquire upper lid. 
         this.upperLid = select('.upperLid');
-        console.log(this.upperLid); 
+        // console.log(this.upperLid); 
         this.upperLidYPos = 0;  
         this.upperLidMinPos = -windowHeight/2; // Range for animation. 
 
         // Acquire bottom lid. 
         this.lowerLid = select('.lowerLid');
-        console.log(this.lowerLid);
+        // console.log(this.lowerLid);
         this.lowerLidYPos = windowHeight/2; 
         this.lowerLidMaxPos = windowHeight; // Range for animation. 
     }

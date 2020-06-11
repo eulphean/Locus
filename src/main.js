@@ -10,6 +10,8 @@ function setup() {
   sandbox = new GlslCanvas(canvas); 
   eyelid = new Eyelid(); 
   noCanvas();
+
+  console.log(windowWidth + ', ' + windowHeight);
 }
 
 // ------------------------------- Sketch Draw (loop) ------------------------

@@ -56,21 +56,26 @@ vec3 colB = vec3(0.0, 1.0, 0.0);
 // ------------------------------------------------------- //
 void main(void)
 {    
-	//vec2 q = gl_FragCoord.xy / u_resolution.xy;
-
 	vec2 st = gl_FragCoord.xy / u_resolution.xy; 
 	float factor = (u_resolution.x/u_resolution.y); 
 	
 	vec2 p = -1.0 + 2.0 * st; // Remap the space between -1 and 1. 
-	p.x *= factor; // Remap x-space based on the factor. 
+	p.x *= factor; // Remap x-space based on the factor.
 
 	vec2 m = -1.0 + 2.0 * u_position.xy / u_resolution.xy; // Remap the incoming position between -1 and 1. 
 	m.y = -m.y; // Remap the y as per the world coordinates (since y is flipped in the shader world). 
 	m.x *= factor; // Remap incoming position based on the factor. 
 
-	// Testing the distance field. 
-	float d = distance(p, m)/abs(sin(u_time));
+	// Distance field (for the eye) 
+	float d = distance(p, m)/abs(sin(u_time*0.2));
 	vec3 col = mix(colA, colB, d); 
+
+	// Animate upper and lower eyelid. 
+	float lowerLid = step(-2.0 + cos(u_time*0.2)* 2.0, p.y); 
+	vec3 l = vec3(lowerLid); 
+	float upperLid = step(-1.0 + cos(u_time*0.2) * 2.0, 1.0-p.y);
+	vec3 u = vec3(upperLid); 
+	col = col * u * l; 
 
 	// float rad_pupil = 0.35 + 0.12 * sin(0.51 * u_time);
 	
@@ -111,3 +116,6 @@ void main(void)
 	
 	gl_FragColor = vec4(col,1.0);
 }
+
+
+// Add a blinker
