@@ -67,25 +67,28 @@ void main(void)
 	m.x *= factor; // Remap incoming position based on the factor. 
 
 	// Distance field (for the eye) 
-	float d = distance(p, m)/abs(sin(u_time*0.2));
-	vec3 col = mix(colA, colB, d); 
+	// float d = distance(p, m)/abs(sin(u_time*0.2));
+	// vec3 col = mix(colA, colB, d); 
 
 	// Animate upper and lower eyelid. 
 	float lowerLid = step(-2.0 + cos(u_time*0.2)*2.05, p.y); 
 	vec3 l = vec3(lowerLid); 
 	float upperLid = step(-1.0 + cos(u_time*0.2)*2.05, 1.0-p.y);
 	vec3 u = vec3(upperLid); 
-	col = col * u * l; 
 
-	// float rad_pupil = 0.35 + 0.12 * sin(0.51 * u_time);
+	// [TODO] Receive this as a uniform based on screen size. 
+	float minRadius = 0.1; 
+	float pupilBlurDistance = 0.1; // Constant value. 
+	float rad_pupil = minRadius + abs(sin(u_time*0.5) * 0.1);
 	
-	// vec2 ctr1 = 0.55 * m;
-	// vec2 ctr2 = 0.40 * m;
-	// vec2 ctr3 = 0.03 * m;
+	vec2 ctr1 = m;
+	vec2 ctr2 = 0.40 * m;
+	vec2 ctr3 = 0.03 * m;
 	
-	// float r1 = length(p-ctr1);
-	// float r2 = length(p-ctr2);
-	// float r3 = length(p-ctr3);
+	// Pupil.
+	float r1 = distance(p, ctr1);
+	float r2 = distance(p, ctr2);
+	float r3 = distance(p, ctr3);
 
 	// // EXTERIOR.
 	// vec3 col = vec3(0.062, 0.670, 0.796);
@@ -112,7 +115,8 @@ void main(void)
 	// f = smoothstep(0.4, 0.9, fbm( vec2(15.0*a,10.0*((r1+r3)/2.0)) ) );
 	// col *= 1.0-0.5*f;
 	// col *= 1.0-0.1*smoothstep( 0.6,0.8, r1 );	
-	// col = mix(col, vec3(0.11765, 0.12549, 0.13333), smoothstep(rad_pupil, rad_pupil - 0.25, r1) );
+	vec3 col = vec3(1.0); 
+	col = mix(col, vec3(0.11765, 0.12549, 0.13333), smoothstep(r3, r3 + pupilBlurDistance, rad_pupil));
 	
 	gl_FragColor = vec4(col,1.0);
 }
