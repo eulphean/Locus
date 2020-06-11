@@ -71,9 +71,9 @@ void main(void)
 	vec3 col = mix(colA, colB, d); 
 
 	// Animate upper and lower eyelid. 
-	float lowerLid = step(-2.0 + cos(u_time*0.2)* 2.0, p.y); 
+	float lowerLid = step(-2.0 + cos(u_time*0.2)*2.05, p.y); 
 	vec3 l = vec3(lowerLid); 
-	float upperLid = step(-1.0 + cos(u_time*0.2) * 2.0, 1.0-p.y);
+	float upperLid = step(-1.0 + cos(u_time*0.2)*2.05, 1.0-p.y);
 	vec3 u = vec3(upperLid); 
 	col = col * u * l; 
 
