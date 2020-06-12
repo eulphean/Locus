@@ -88,7 +88,7 @@ float fbm (in vec2 st) {
 
 float pattern(in vec2 p) {
     vec2 q = vec2(0.0, 0.0);
-    q.x = fbm(p + vec2(0.142,0.096)); 
+    q.x = fbm(p + vec2(0.142*u_time,0.096*u_time)); 
     q.y = fbm(p + vec2(0.150,0.0300)); 
     return fbm(p + 4.0*q); 
 }
@@ -135,10 +135,10 @@ void main(void)
 	// Design the background
 	vec3 iris = vec3(0.541,0.990,0.378); 
 	vec3 colB = vec3(0.533,0.008,0.540); 
-	//iris.r = iris.r + fbm(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time)); 
+	iris.r = iris.r + fbm(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time)); 
     // iris.g = iris.g + fbm(4.3*st + vec2(0.082 * u_time, -0.008 * u_time));
     // iris.b = iris.b + fbm(2.3*st + vec2(0.040 * u_time, 0.02 * u_time));
-    float f = clamp(pattern((st)), 0.0, 1.0); 
+    float f = clamp(pattern((st) + st), 0.0, 1.0); 
     vec3 col = mix(colB, iris, f);
 	
 	// [Note] col here should be the color of the background + iris
