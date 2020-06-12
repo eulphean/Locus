@@ -53,51 +53,68 @@ float random (in vec2 _st) {
         43758.5453123);
 }
 
-float noise(in vec2 st) {
-    vec2 i = floor(st);
-    vec2 f = fract(st);
+// float noise(in vec2 st) {
+//     vec2 i = floor(st);
+//     vec2 f = fract(st);
 
-    // Four corners in 2D of a tile
-    float a = random(i);
-    float b = random(i + vec2(1.0, 0.0));
-    float c = random(i + vec2(0.0, 1.0));
-    float d = random(i + vec2(1.0, 1.0));
+//     // Four corners in 2D of a tile
+//     float a = random(i);
+//     float b = random(i + vec2(1.0, 0.0));
+//     float c = random(i + vec2(0.0, 1.0));
+//     float d = random(i + vec2(1.0, 1.0));
 
-    vec2 u = f * f * (3.0 - 2.0 * f);
+//     vec2 u = f * f * (3.0 - 2.0 * f);
 
-    return mix(a, b, u.x) +
-            (c - a)* u.y * (1.0 - u.x) +
-            (d - b) * u.x * u.y;
-}
+//     return mix(a, b, u.x) +
+//             (c - a)* u.y * (1.0 - u.x) +
+//             (d - b) * u.x * u.y;
+// }
 
-#define OCTAVES 3
-float fbm (in vec2 st) {
-    // Initial values
-    float value = 0.0;
-    float amplitude = .5;
-    float frequency = 0.;
-    //
-    // Loop of octaves
-    for (int i = 0; i < OCTAVES; i++) {
-        value += amplitude * noise(st);
-        st *= 2.;
-        amplitude *= .5;
-    }
-    return value;
-}
+// #define OCTAVES 3
+// float fbm (in vec2 st) {
+//     // Initial values
+//     float value = 0.0;
+//     float amplitude = .5;
+//     float frequency = 0.;
+//     //
+//     // Loop of octaves
+//     for (int i = 0; i < OCTAVES; i++) {
+//         value += amplitude * noise(st);
+//         st *= 2.;
+//         amplitude *= .5;
+//     }
+//     return value;
+// }
 
-float pattern(in vec2 p) {
-    vec2 q = vec2(0.0, 0.0);
-    q.x = fbm(p + vec2(0.142*u_time,0.096*u_time)); 
-    q.y = fbm(p + vec2(0.150,0.0300)); 
-    return fbm(p + 4.0*q); 
-}
+// 
 
 float length2( vec2 p )
 {
 	float ax = abs(p.x);
 	float ay = abs(p.y);
 	return pow( pow(ax,4.0) + pow(ay,4.0), 1.0/4.0 );
+}
+
+float noise( in vec2 p )
+{
+	return sin(p.x)*sin(p.y);
+}
+
+float fbm4( vec2 p )
+{
+    float f = 0.0;
+    f += 0.5000*noise( p ); p = m*p*2.02;
+    f += 0.2500*noise( p ); p = m*p*2.03;
+    f += 0.1250*noise( p ); p = m*p*2.01;
+    f += 0.0625*noise( p );
+    return f/0.9375;
+}
+
+float pattern(in vec2 p) {
+    vec2 q = vec2(0.0, 0.0);
+    q.x = fbm4(p + vec2(0.142*u_time,0.096*u_time)); 
+    q.y = fbm4(p + vec2(0.150,0.0300)); 
+    return fbm4(p + 4.0*q); 
 }
 
 // ------------------------------------------------------- //
@@ -135,11 +152,11 @@ void main(void)
 	// Design the background
 	vec3 iris = vec3(0.541,0.990,0.378); 
 	vec3 colB = vec3(0.533,0.008,0.540); 
-	iris.r = iris.r + fbm(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time)); 
+	iris.r = iris.r + fbm4(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time)); 
     // iris.g = iris.g + fbm(4.3*st + vec2(0.082 * u_time, -0.008 * u_time));
     // iris.b = iris.b + fbm(2.3*st + vec2(0.040 * u_time, 0.02 * u_time));
-    float f = clamp(fbm(4.0*st + u_time*0.05), 0.0, 1.0); 
-    vec3 col = clamp(mix(colB, iris, f), 0.0, 1.0);
+    float f = clamp(fbm4(10.0*st + u_time*0.1), 0.0, 1.0); 
+    vec3 col = mix(colB, iris, f);
 	
 	// [Note] col here should be the color of the background + iris
 	col = mix(col, pupilColor, smoothstep(d, d + pupilBlurDistance, rad_pupil));
