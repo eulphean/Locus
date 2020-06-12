@@ -155,7 +155,7 @@ void main(void)
 	iris.r = iris.r + fbm4(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time)); 
     // iris.g = iris.g + fbm(4.3*st + vec2(0.082 * u_time, -0.008 * u_time));
     // iris.b = iris.b + fbm(2.3*st + vec2(0.040 * u_time, 0.02 * u_time));
-    float f = clamp(fbm4(10.0*st + u_time*0.1), 0.0, 1.0); 
+    float f = clamp(pattern(st*15.0), 0.0, 1.0); 
     vec3 col = mix(colB, iris, f);
 	
 	// [Note] col here should be the color of the background + iris
