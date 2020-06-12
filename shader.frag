@@ -139,7 +139,7 @@ void main(void)
     // iris.g = iris.g + fbm(4.3*st + vec2(0.082 * u_time, -0.008 * u_time));
     // iris.b = iris.b + fbm(2.3*st + vec2(0.040 * u_time, 0.02 * u_time));
     float f = clamp(pattern((st) + st), 0.0, 1.0); 
-    vec3 col = mix(colB, iris, f);
+    vec3 col = clamp(mix(colB, iris, f), 0.0, 1.0);
 	
 	// [Note] col here should be the color of the background + iris
 	col = mix(col, pupilColor, smoothstep(d, d + pupilBlurDistance, rad_pupil));
