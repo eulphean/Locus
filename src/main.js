@@ -5,8 +5,8 @@ let factor = canvasSize[0]/canvasSize[1];
 // ------------------------------- Sketch Setup ------------------------------
 function setup() {
   var canvas = document.getElementById("glslCanvas");
-  canvas.width = windowWidth;
-  canvas.height = windowHeight; 
+  canvas.width = screen.width;
+  canvas.height = screen.height; 
   sandbox = new GlslCanvas(canvas); 
   eyelid = new Eyelid(); 
   noCanvas();

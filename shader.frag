@@ -14,7 +14,7 @@ uniform vec2 u_position;
 // ------------------------------------------------------- //
 // MOTION
 // ------------------------------------------------------- //
-mat2 m = mat2( 0.8,  0.6, -0.6,  0.6 );
+const mat2 m = mat2( 0.036,  0.736, -1.256,  0.400 );
 
 float hash( float n )
 {
@@ -150,12 +150,13 @@ void main(void)
 	float d = distance(p, m); 
 
 	// Design the background
-	vec3 iris = vec3(0.541,0.990,0.378); 
-	vec3 colB = vec3(0.533,0.008,0.540); 
-	iris.r = iris.r + fbm4(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time)); 
-    // iris.g = iris.g + fbm(4.3*st + vec2(0.082 * u_time, -0.008 * u_time));
-    // iris.b = iris.b + fbm(2.3*st + vec2(0.040 * u_time, 0.02 * u_time));
-    float f = clamp(pattern(st*15.0), 0.0, 1.0); 
+	vec3 colB = vec3(0.700,0.644,0.113);  
+ 	vec3 iris = vec3(0.881,0.990,0.870); 
+    iris.r = iris.r + fbm4(0.016*st + vec2(0.176 * u_time, 0.368 * u_time) + pattern(st)); 
+	iris.g = iris.g + fbm4(2.836*st + vec2(0.590 * u_time, 0.392 * u_time));
+    iris.b = iris.b + fbm4(2.316*st + vec2(0.240 * u_time, 0.236 * u_time));
+    //float f = clamp(fbm4(st*12.272)), 0.0, 1.0); 
+    float f = clamp((pattern(st*18.768 + u_time)), 0.0, 1.0);
     vec3 col = mix(colB, iris, f);
 	
 	// [Note] col here should be the color of the background + iris
