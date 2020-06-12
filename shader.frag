@@ -53,7 +53,7 @@ float random (in vec2 _st) {
         43758.5453123);
 }
 
-float noise (in vec2 st) {
+float noise(in vec2 st) {
     vec2 i = floor(st);
     vec2 f = fract(st);
 
@@ -70,7 +70,7 @@ float noise (in vec2 st) {
             (d - b) * u.x * u.y;
 }
 
-#define OCTAVES 4
+#define OCTAVES 3
 float fbm (in vec2 st) {
     // Initial values
     float value = 0.0;
@@ -138,7 +138,7 @@ void main(void)
 	iris.r = iris.r + fbm(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time)); 
     // iris.g = iris.g + fbm(4.3*st + vec2(0.082 * u_time, -0.008 * u_time));
     // iris.b = iris.b + fbm(2.3*st + vec2(0.040 * u_time, 0.02 * u_time));
-    float f = clamp(pattern((st) + st), 0.0, 1.0); 
+    float f = clamp(fbm(4.0*st + u_time*0.05), 0.0, 1.0); 
     vec3 col = clamp(mix(colB, iris, f), 0.0, 1.0);
 	
 	// [Note] col here should be the color of the background + iris
