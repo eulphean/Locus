@@ -135,8 +135,8 @@ void main(void)
 	// Design the background
 	vec3 iris = vec3(0.541,0.990,0.378); 
 	vec3 colB = vec3(0.533,0.008,0.540); 
-	iris.r = iris.r + fbm(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time) + pattern(st)); 
-    iris.g = iris.g + fbm(4.3*st + vec2(0.082 * u_time, -0.008 * u_time));
+	//iris.r = iris.r + fbm(-0.664*st + vec2(-0.088 * u_time, -0.02 * u_time)); 
+    // iris.g = iris.g + fbm(4.3*st + vec2(0.082 * u_time, -0.008 * u_time));
     // iris.b = iris.b + fbm(2.3*st + vec2(0.040 * u_time, 0.02 * u_time));
     float f = clamp(pattern((st*15.696) + st), 0.0, 1.0); 
     vec3 col = mix(colB, iris, f);
