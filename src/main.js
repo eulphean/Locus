@@ -7,7 +7,7 @@ var initPosition;
 // ------------------------------- Sketch Setup ------------------------------
 function setup() {
   var canvas = document.getElementById("glslCanvas");
-  initPosition = [displayWidth, displayHeight]; 
+  initPosition = [windowWidth, windowHeight]; 
   canvas.width = initPosition[0]; 
   canvas.height = initPosition[1]; 
   sandbox = new GlslCanvas(canvas); 
