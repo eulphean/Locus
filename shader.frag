@@ -49,6 +49,10 @@ float random (in vec2 _st) {
         43758.5453123);
 }
 
+float rand(vec2 n) { 
+	return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+}
+
 float hash( float n )
 {
 	return fract(sin(n)*43758.5453);
@@ -66,23 +70,28 @@ float length2( vec2 p )
 // 	return sin(p.x)*sin(p.y);
 // }
 
-
-float noise(in vec2 st) {
-    vec2 i = floor(st);
-    vec2 f = fract(st);
-
-    // Four corners in 2D of a tile
-    float a = random(i);
-    float b = random(i + vec2(1.0, 0.0));
-    float c = random(i + vec2(0.0, 1.0));
-    float d = random(i + vec2(1.0, 1.0));
-
-    vec2 u = f * f * (3.0 - 2.0 * f);
-
-    return mix(a, b, u.x) +
-            (c - a)* u.y * (1.0 - u.x) +
-            (d - b) * u.x * u.y;
+float noise(vec2 n) {
+  const vec2 d = vec2(0.0, 1.0);
+  vec2 b = floor(n), f = smoothstep(vec2(0.0), vec2(1.0), fract(n));
+  return mix(mix(rand(b), rand(b + d.yx), f.x), mix(rand(b + d.xy), rand(b + d.yy), f.x), f.y);
 }
+
+// float noise(in vec2 st) {
+//     vec2 i = floor(st);
+//     vec2 f = fract(st);
+
+//     // Four corners in 2D of a tile
+//     float a = random(i);
+//     float b = random(i + vec2(1.0, 0.0));
+//     float c = random(i + vec2(0.0, 1.0));
+//     float d = random(i + vec2(1.0, 1.0));
+
+//     vec2 u = f * f * (3.0 - 2.0 * f);
+
+//     return mix(a, b, u.x) +
+//             (c - a)* u.y * (1.0 - u.x) +
+//             (d - b) * u.x * u.y;
+// }
 
 float fbm4( vec2 p )
 {
@@ -119,7 +128,7 @@ void main(void)
 	m.x *= factor; // Remap incoming position based on the factor. 
 
 	// Animate upper and lower eyelid. 
-	float lowerLid = step(-2.0 + cos(u_time*0.2)*2.05, p.y); 
+	float lowerLid = step(-2.0 + cos(u_time*0.)*2.05, p.y); 
 	vec3 l = vec3(lowerLid); 
 	float upperLid = step(-1.0 + cos(u_time*0.2)*2.05, 1.0-p.y);
 	vec3 u = vec3(upperLid); 
@@ -137,6 +146,7 @@ void main(void)
 	vec3 col = vec3(0.700,0.644,0.113);  
  	vec3 irisA = vec3(0.881,0.990,0.870); 
 	vec3 irisB = vec3(0.9, 0.4, 0.0); 
+	vec3 irisC = vec3(0.7725, 0.78039, 0.78039); 
 
     irisA.r = irisA.r + fbm4(0.016*p + vec2(0.176 * u_time, 0.368 * u_time)); 
 	irisA.g = irisA.g + fbm4(2.836*p + vec2(0.590 * u_time, 0.392 * u_time));
@@ -146,15 +156,18 @@ void main(void)
 	irisB.y = irisB.g + fbm4(3.1*p + vec2(u_time*0.3, u_time*0.4));
 	irisB.z = irisB.b + fbm4(2.3*p + vec2(u_time*0.1, u_time*0.2));
 
-    float f = clamp((pattern(st*18.768 + u_time)), 0.0, 1.0);
+	// Background
+    float f = clamp((pattern(st*18.768 + u_time*0.3)), 0.0, 1.0);
     col = mix(col, irisA, f);
+
+	// Center halo. 
 	col = mix(col, irisB, smoothstep(0.0, 0.5, 1.0-d));
 
 	// White streaks
-	float a = atan((p.y-m.y), p.x-m.x );
-	a += 0.05*fbm4( 10.0*p+u_time);
-	f = smoothstep( 0.3, 1.0, fbm4( vec2(20.0*a,6.0*d)));
-	col = mix( col, vec3(0.77255, 0.78039, 0.78039), f);
+	float a = atan(abs(p.y-m.y), p.x-m.x );
+	a += 0.05*fbm4(10.0*p + u_time*0.5);
+	f = smoothstep(0.3, 1.0, fbm4(vec2(20.0*a, 6.0*d)));
+	col = mix( col, irisC, f);
 
 	// Dark streaks
 	f = smoothstep(0.4, 0.9, fbm4(vec2(15.0*a,10.0*d)));
