@@ -128,9 +128,9 @@ void main(void)
 	m.x *= factor; // Remap incoming position based on the factor. 
 
 	// Animate upper and lower eyelid. 
-	float lowerLid = step(-2.0 + cos(u_time*0.2)*2.05, p.y); 
+	float lowerLid = step(-2.0 + cos(u_time*0.10)*2.05, p.y); 
 	vec3 l = vec3(lowerLid); 
-	float upperLid = step(-1.0 + cos(u_time*0.2)*2.05, 1.0-p.y);
+	float upperLid = step(-1.0 + cos(u_time*0.10)*2.05, 1.0-p.y);
 	vec3 u = vec3(upperLid); 
 
 	// [TODO] Receive this as a uniform.
@@ -181,103 +181,3 @@ void main(void)
 	
 	gl_FragColor = vec4(col,1.0);
 }
-
-
-// Add a blinker
-
-	// Distance field (for the eye) 
-	// float d = distance(p, m)/abs(sin(u_time*0.2));
-	// vec3 col = mix(colA, colB, d); 
-
-
-	// // vec2 ctr1 = m;
-	// // vec2 ctr2 = 0.40 * m;
-	// // vec2 ctr3 = 0.03 * m;
-	
-	// // Pupil.
-	// // float r1 = distance(p, ctr1); // Distance field from the pupil. 
-	// // float r2 = distance(p, ctr2);
-	// // float r3 = distance(p, ctr3);
-
-	// // // EXTERIOR.
-	// vec3 col = vec3(1.0, 0, 0);
-	// // //vec3 col = vec3(0.859, 0.11, 0.424);
-
-	// vec3 iris1, iris2;
-
-	// // Individually mix R, G, and B. 
-	// iris1.x = 0.1 + 0.3*fbm(2.3*p + vec2(u_time*0.4, u_time*0.5)); // R
-	// iris1.y = 0.3 + 0.4*fbm(4.3*p + vec2(u_time*0.1, u_time*0.2)); // G
-	// iris1.z = 0.2 + 0.4*fbm(1.3*p + vec2(u_time*0.3, u_time*0.3)); // B 
-
-	// // iris2.x = 0.9 + 0.2*fbm(1.7*p + vec2(u_time*0.2, u_time*0.3));
-	// // iris2.y = 0.4 + 0.4*fbm(3.1*p + vec2(u_time*0.3, u_time*0.4));
-	// // iris2.z = 0.0 + 0.4*fbm(2.3*p + vec2(u_time*0.1, u_time*0.2));
-
-	// // // INTERIOR.
-	// // float f = fbm( 5.0*(p-ctr2)+u_time);
-	// // col = mix( col, iris1, f );
-	// // col = mix( col, iris2, smoothstep(0.9,0.2, (r1+r2)/5.0) );
-           
-	// // float a = atan( abs(p.y-ctr1.y), p.x-ctr1.x );
-	// // a += 0.05*fbm( 10.0*p+u_time*0.5 );
-	// // f = smoothstep( 0.3, 1.0, fbm( vec2(20.0*a,6.0*r2) ) );
-	// // col = mix( col, vec3(0.77255, 0.78039, 0.78039), f );
-    
-	// // f = smoothstep(0.4, 0.9, fbm( vec2(15.0*a,10.0*((r1+r3)/2.0)) ) );
-	// // col *= 1.0-0.5*f;
-	// // col *= 1.0-0.1*smoothstep( 0.6,0.8, r1 );	
-	// // vec3 col = vec3(1.0); 
-
-	// float noise(in vec2 st) {
-//     vec2 i = floor(st);
-//     vec2 f = fract(st);
-
-//     // Four corners in 2D of a tile
-//     float a = random(i);
-//     float b = random(i + vec2(1.0, 0.0));
-//     float c = random(i + vec2(0.0, 1.0));
-//     float d = random(i + vec2(1.0, 1.0));
-
-//     vec2 u = f * f * (3.0 - 2.0 * f);
-
-//     return mix(a, b, u.x) +
-//             (c - a)* u.y * (1.0 - u.x) +
-//             (d - b) * u.x * u.y;
-// }
-
-// #define OCTAVES 3
-// float fbm (in vec2 st) {
-//     // Initial values
-//     float value = 0.0;
-//     float amplitude = .5;
-//     float frequency = 0.;
-//     //
-//     // Loop of octaves
-//     for (int i = 0; i < OCTAVES; i++) {
-//         value += amplitude * noise(st);
-//         st *= 2.;
-//         amplitude *= .5;
-//     }
-//     return value;
-// }
-
-// 
-
-//float f = clamp(fbm4(st*12.272)), 0.0, 1.0); 
-
-// #define OCTAVES 5
-// float fbm4(in vec2 st) {
-//     // Initial values
-//     float value = 0.0;
-//     float amplitude = .5;
-//     float frequency = 0.;
-//     //
-//     // Loop of octaves
-//     for (int i = 0; i < OCTAVES; i++) {
-//         value += amplitude * noise(st);
-//         st *= 2.;
-//         amplitude *= .5;
-//     }
-//     return value;
-// }
