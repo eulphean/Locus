@@ -128,7 +128,7 @@ void main(void)
 	m.x *= factor; // Remap incoming position based on the factor. 
 
 	// Animate upper and lower eyelid. 
-	float lowerLid = step(-2.0 + cos(u_time*0.)*2.05, p.y); 
+	float lowerLid = step(-2.0 + cos(u_time*0.2)*2.05, p.y); 
 	vec3 l = vec3(lowerLid); 
 	float upperLid = step(-1.0 + cos(u_time*0.2)*2.05, 1.0-p.y);
 	vec3 u = vec3(upperLid); 
@@ -167,7 +167,7 @@ void main(void)
 	float a = atan(abs(p.y-m.y), p.x-m.x );
 	a += 0.05*fbm4(10.0*p + u_time*0.5);
 	f = smoothstep(0.3, 1.0, fbm4(vec2(20.0*a, 6.0*d)));
-	col = mix( col, irisC, f);
+	col = mix(col, irisC, f);
 
 	// Dark streaks
 	f = smoothstep(0.4, 0.9, fbm4(vec2(15.0*a,10.0*d)));
@@ -176,6 +176,8 @@ void main(void)
 	
 	// [Note] col here should be the color of the background + iris
 	col = mix(col, pupilColor, smoothstep(d, d + pupilBlurDistance, rad_pupil));
+
+	col = col*l*u;
 	
 	gl_FragColor = vec4(col,1.0);
 }
@@ -263,3 +265,19 @@ void main(void)
 // 
 
 //float f = clamp(fbm4(st*12.272)), 0.0, 1.0); 
+
+// #define OCTAVES 5
+// float fbm4(in vec2 st) {
+//     // Initial values
+//     float value = 0.0;
+//     float amplitude = .5;
+//     float frequency = 0.;
+//     //
+//     // Loop of octaves
+//     for (int i = 0; i < OCTAVES; i++) {
+//         value += amplitude * noise(st);
+//         st *= 2.;
+//         amplitude *= .5;
+//     }
+//     return value;
+// }
