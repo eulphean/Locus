@@ -143,7 +143,7 @@ void main(void)
 	float d = distance(p, m); 
 
 	// Design the background
-	vec3 col = vec3(1.0,0.0,0.0);  
+	vec3 col = vec3(1.0,1.0,1.0);  
  	vec3 irisA = vec3(0.881,0.990,0.870); 
 	vec3 irisB = vec3(0.9, 0.4, 0.0); 
 	vec3 irisC = vec3(0.7725, 0.78039, 0.78039); 
@@ -167,7 +167,7 @@ void main(void)
 	float a = atan(abs(p.y-m.y), p.x-m.x );
 	a += 0.05*fbm4(10.0*p + u_time*0.5);
 	f = smoothstep(0.3, 1.0, fbm4(vec2(20.0*a, 6.0*d)));
-	// col = mix(col, irisC, f);
+	col = mix(col, irisC, f);
 
 	// Dark streaks
 	f = smoothstep(0.4, 0.9, fbm4(vec2(15.0*a,10.0*d)));
