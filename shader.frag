@@ -98,10 +98,11 @@ void main(void)
 	// float r = clamp((fbm4(abs(0.5*p) + f + -u_time*0.2)), 0.0, 1.0);
 	//f = fbm4(5.0*p + u_time*0.5); 
     col = mix(col, irisA, f);
-	col = mix(col, irisB, f);
+	// col = mix(col, irisB, f);
 
 	// Center halo. 
-	col = mix(col, irisB, smoothstep(0.4, 0.6+abs(sin(u_time*0.25))*20.0, d));
+	//col = mix(col, irisB, smoothstep(0.4, 0.6+abs(sin(u_time*0.25))*20.0, d));
+	col = mix(col, irisB, smoothstep(0.4, 20.0, d));
 	// col = mix(col, irisB, pattern(abs(p*1.0) - u_time*0.1));
 
 	// // // White streaks
