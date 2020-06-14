@@ -89,9 +89,9 @@ void main(void)
 	// irisA.g = irisA.g + fbm4(2.836*p + vec2(0.590 * u_time, 0.392 * u_time));
     // irisA.b = irisA.b + fbm4(2.316*p + vec2(0.240 * u_time, 0.236 * u_time));
 
-	irisB.x = irisB.r + fbm4(1.7*p + vec2(u_time*0.2, u_time*0.3));
-	irisB.y = irisB.g + fbm4(3.1*p + vec2(u_time*0.3, u_time*0.4));
-	irisB.z = irisB.b + fbm4(2.3*p + vec2(u_time*0.1, u_time*0.2));
+	// irisB.x = irisB.r + fbm4(p + vec2(u_time*0.04, u_time*0.05));
+	// irisB.y = irisB.g + fbm4(p + vec2(u_time*0.03, u_time*0.02));
+	// irisB.z = irisB.b + fbm4(p + vec2(u_time*0.01, u_time*0.03));
 
 	// Background
     float f = clamp((fbm4(abs(0.5*(p-cPos)) + pattern(abs((p-cPos)*10.0)) + -u_time*0.2)), 0.0, 1.0);
@@ -100,8 +100,8 @@ void main(void)
     col = mix(col, irisA, f);
 	col = mix(col, irisB, f);
 
-	// // // Center halo. 
-	col = mix(col, irisB, smoothstep(0.4, 0.6+abs(sin(u_time*0.25))*10.0, d));
+	// Center halo. 
+	col = mix(col, irisB, smoothstep(0.4, 0.6+abs(sin(u_time*0.25))*20.0, d));
 	// col = mix(col, irisB, pattern(abs(p*1.0) - u_time*0.1));
 
 	// // // White streaks
@@ -118,6 +118,7 @@ void main(void)
 	// [Note] col here should be the color of the background + iris
 	//col = mix(col, pupilColor, smoothstep(d, d + pupilBlurDistance, rad_pupil));
 
+	// Eyelids
 	col = col*l*u;
 	
 	gl_FragColor = vec4(col,1.0);

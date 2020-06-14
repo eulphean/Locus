@@ -30,8 +30,13 @@ function setup() {
 
 // ------------------------------- Sketch Draw (loop) ------------------------
 function draw() {
-  if (millis() - curTime > 5000 && isInterpolating === false) {
+  if (millis() - curTime > 10000 && isInterpolating === false) {
     newPosition.set(random(canvasSize[0], canvasSize[1]));
+    let d = newPosition.dist(currentPosition); 
+    while (d < windowWidth/2) {
+      newPosition.set(random(canvasSize[0], canvasSize[1]));
+      d = newPosition.dist(currentPosition);
+    }
     // Start interpolation
     isInterpolating = true;
   }
@@ -39,7 +44,7 @@ function draw() {
   if (isInterpolating) {
     currentPosition = currentPosition.lerp(newPosition, 0.001); 
     let d = p5.Vector.dist(currentPosition, newPosition); 
-    if (d < 5.0) {
+    if (d < 10.0) {
       isInterpolating = false; 
       curTime = millis(); // Reset time. 
     }
