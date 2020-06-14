@@ -102,7 +102,7 @@ void main(void)
 
 	// Center halo. 
 	//col = mix(col, irisB, smoothstep(0.4, 0.6+abs(sin(u_time*0.25))*20.0, d));
-	col = mix(col, irisB, smoothstep(0.4, 20.0, d));
+	//col = mix(col, irisB, smoothstep(0.4, 20.0, d));
 	// col = mix(col, irisB, pattern(abs(p*1.0) - u_time*0.1));
 
 	// // // White streaks
