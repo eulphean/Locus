@@ -93,7 +93,7 @@ void main(void)
 	irisB.z = irisB.b + fbm4(2.3*p + vec2(u_time*0.1, u_time*0.2));
 
 	// Background
-    float f = clamp((fbm4(abs(0.5*p) + pattern(abs(p*20.0)) + -u_time*0.1)), 0.0, 1.0);
+    float f = clamp((fbm4(abs(0.05*p) + pattern(abs(p*20.0)) + -u_time*0.1)), 0.0, 1.0);
 	//f = fbm4(5.0*p + u_time*0.5); 
     col = mix(col, irisA, f);
 
