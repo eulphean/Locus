@@ -78,29 +78,30 @@ void main(void)
 	// All the colors. 
 	vec3 col = vec3(1.000,0.000,0.413);  
 	vec3 irisA = vec3(0.657,0.990,0.822);
-	vec3 irisB = vec3(0.811,0.900,0.865); 
+	vec3 irisB = vec3(0.900,0.694,0.054); 
 	vec3 irisC = vec3(0.132,0.740,0.605); 
 
 	// Distance field of the current position
 	float d = distance(cPos, p); 
 
+
     // irisA.r = irisA.r + fbm4(0.8*p + vec2(0.176 * u_time, 0.368 * u_time)); 
 	// irisA.g = irisA.g + fbm4(2.836*p + vec2(0.590 * u_time, 0.392 * u_time));
     // irisA.b = irisA.b + fbm4(2.316*p + vec2(0.240 * u_time, 0.236 * u_time));
 
-	// irisB.x = irisB.r + fbm4(1.7*p + vec2(u_time*0.2, u_time*0.3));
-	// irisB.y = irisB.g + fbm4(3.1*p + vec2(u_time*0.3, u_time*0.4));
-	// irisB.z = irisB.b + fbm4(2.3*p + vec2(u_time*0.1, u_time*0.2));
+	irisB.x = irisB.r + fbm4(1.7*p + vec2(u_time*0.2, u_time*0.3));
+	irisB.y = irisB.g + fbm4(3.1*p + vec2(u_time*0.3, u_time*0.4));
+	irisB.z = irisB.b + fbm4(2.3*p + vec2(u_time*0.1, u_time*0.2));
 
 	// Background
-    float f = clamp((fbm4(abs(0.5*p) + pattern(abs(p*10.0)) + -u_time*0.2)), 0.0, 1.0);
+    float f = clamp((fbm4(abs(0.5*(p-cPos)) + pattern(abs((p-cPos)*10.0)) + -u_time*0.2)), 0.0, 1.0);
 	// float r = clamp((fbm4(abs(0.5*p) + f + -u_time*0.2)), 0.0, 1.0);
 	//f = fbm4(5.0*p + u_time*0.5); 
     col = mix(col, irisA, f);
-	// col = mix(col, irisB, r);
+	col = mix(col, irisB, f);
 
 	// // // Center halo. 
-	//col = mix(col, irisB, smoothstep(0.4, 0.6+abs(sin(u_time*0.25))*1.5, d));
+	col = mix(col, irisB, smoothstep(0.4, 0.6+abs(sin(u_time*0.25))*10.0, d));
 	// col = mix(col, irisB, pattern(abs(p*1.0) - u_time*0.1));
 
 	// // // White streaks
