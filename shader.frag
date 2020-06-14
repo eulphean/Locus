@@ -84,9 +84,9 @@ void main(void)
 	vec3 irisB = vec3(0.001,0.073,0.900); 
 	vec3 irisC = vec3(0.132,0.740,0.605); 
 
-    irisA.r = irisA.r + fbm4(0.8*p + vec2(0.176 * u_time, 0.368 * u_time)); 
-	irisA.g = irisA.g + fbm4(2.836*p + vec2(0.590 * u_time, 0.392 * u_time));
-    irisA.b = irisA.b + fbm4(2.316*p + vec2(0.240 * u_time, 0.236 * u_time));
+    // irisA.r = irisA.r + fbm4(0.8*p + vec2(0.176 * u_time, 0.368 * u_time)); 
+	// irisA.g = irisA.g + fbm4(2.836*p + vec2(0.590 * u_time, 0.392 * u_time));
+    // irisA.b = irisA.b + fbm4(2.316*p + vec2(0.240 * u_time, 0.236 * u_time));
 
 	irisB.x = irisB.r + fbm4(1.7*p + vec2(u_time*0.2, u_time*0.3));
 	irisB.y = irisB.g + fbm4(3.1*p + vec2(u_time*0.3, u_time*0.4));
