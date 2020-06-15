@@ -21,6 +21,8 @@ function setup() {
   canvas.width = canvasSize[0]; canvas.height = canvasSize[1]; 
   sandbox = new GlslCanvas(canvas); 
   noCanvas();
+
+  noCursor();
   
   // Start tracking time. 
   // curTime = millis(); 
