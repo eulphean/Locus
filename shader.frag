@@ -53,7 +53,7 @@ vec3 col = vec3(1.0);
 vec3 colA = vec3(0.859, 0.11, 0.424); // Fuscia
 vec3 colB = vec3(0.867, 0.18, 0.318); // Amaranth
 vec3 colC = vec3(0.98, 0.757, 0.192); // Mustard Yellow
-vec3 colD = vec3(0.937, 0.624, 0.569); // Peach
+vec3 colD = vec3(0.827, 0.443, 0.808); // Orchid
 
 // Initial value. 
 float patternSeed = 0.5; 
