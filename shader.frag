@@ -9,15 +9,17 @@ precision highp float;
 // ------------------------------------------------------- //
 uniform float u_time;
 uniform vec2 u_resolution;
-uniform vec2 u_position;
+uniform vec2 u_position; 
+
+// Since I can't send in the parameters in this. 
+// vec2 u_position = vec2(250.0, 250.0);
 
 // ------------------------------------------------------- //
 // MOTION
 // ------------------------------------------------------- //
-const mat2 m = mat2( 0.036,  0.736, -1.256,  0.400 );
+mat2 m = mat2( 0.444,  1.224, -1.280,  0.400); 
+// Change these values when the eye closes. 
 
-// Based on Morgan McGuire @morgan3d
-// https://www.shadertoy.com/view/4dS3Wd
 float rand(vec2 n) { 
 	return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
 }
@@ -31,9 +33,9 @@ float noise(vec2 n) {
 float fbm4( vec2 p )
 {
     float f = 0.0;
-    f += 0.5000*noise( p ); p = m*p*2.02;
-    f += 0.2500*noise( p ); p = m*p*2.03;
-    f += 0.1250*noise( p ); p = m*p*2.01;
+    f += 0.5000*noise( p ); p = m*p*2.044;
+    f += 0.2500*noise( p ); p = m*p*2.022;
+    f += 0.1250*noise( p ); p = m*p*2.082;
     f += 0.0625*noise( p );
     return f/0.9375;
 }
@@ -45,6 +47,16 @@ float pattern(in vec2 p) {
     return fbm4(p + 4.0*q); 
 }
 
+
+// Interleaving colors. 
+vec3 col = vec3(1.0); 
+vec3 colA = vec3(0.859, 0.11, 0.424);  // Fuscia
+vec3 colB = vec3(0.965, 0.353, 0.584); // Pink
+vec3 colC = vec3(0.98, 0.757, 0.192);  // Mustard Yellow
+vec3 colD = vec3(0.132,0.740,0.605); 
+
+// Initial value. 
+float patternSeed = 0.5; 
 // ------------------------------------------------------- //
 // BEGIN.
 // ------------------------------------------------------- //
@@ -61,6 +73,9 @@ void main(void)
 	vec2 cPos = -1.0 + 2.0 * u_position.xy / u_resolution.xy; // Remap the incoming position between -1 and 1. 
 	cPos.y = -cPos.y; // Remap the y as per the world coordinates (since y is flipped in the shader world). 
 	cPos.x *= factor; // Remap incoming position based on the factor. 
+    
+    // Distance field of the current position
+	float d = distance(cPos, p); 
 
 	// Animate upper and lower eyelid. 
 	float lowerLid = step(-2.0 + cos(u_time*0.10)*2.05, p.y); 
@@ -68,59 +83,22 @@ void main(void)
 	float upperLid = step(-1.0 + cos(u_time*0.10)*2.05, 1.0-p.y);
 	vec3 u = vec3(upperLid); 
 
-	// [TODO] Receive this as a uniform.
-	float minRadius = 0.1; 
-	float pupilAmplitude = 0.10;
-	float pupilBlurDistance = 0.1; // Constant value. 
-	vec3 pupilColor = vec3(0.0); 
-	float rad_pupil = minRadius + abs(sin(u_time*0.2) * pupilAmplitude);
-
-	// All the colors. 
-	vec3 col = vec3(1.000,0.000,0.413);  
-	vec3 irisA = vec3(0.657,0.990,0.822);
-	vec3 irisB = vec3(0.900,0.694,0.054); 
-	vec3 irisC = vec3(0.132,0.740,0.605); 
-
-	// Distance field of the current position
-	float d = distance(cPos, p); 
-
-
-    // irisA.r = irisA.r + fbm4(0.8*p + vec2(0.176 * u_time, 0.368 * u_time)); 
-	// irisA.g = irisA.g + fbm4(2.836*p + vec2(0.590 * u_time, 0.392 * u_time));
-    // irisA.b = irisA.b + fbm4(2.316*p + vec2(0.240 * u_time, 0.236 * u_time));
-
-	// irisB.x = irisB.r + fbm4(p + vec2(u_time*0.04, u_time*0.05));
-	// irisB.y = irisB.g + fbm4(p + vec2(u_time*0.03, u_time*0.02));
-	// irisB.z = irisB.b + fbm4(p + vec2(u_time*0.01, u_time*0.03));
-
-	// Background
-    float f = clamp((fbm4(abs(0.5*(p-cPos)) + pattern(abs((p-cPos)*10.0)) + -u_time*0.2)), 0.0, 1.0);
-	// float r = clamp((fbm4(abs(0.5*p) + f + -u_time*0.2)), 0.0, 1.0);
-	//f = fbm4(5.0*p + u_time*0.5); 
-    col = mix(col, irisA, f);
-	// col = mix(col, irisB, f);
-
-	// Center halo. 
-	//col = mix(col, irisB, smoothstep(0.4, 0.6+abs(sin(u_time*0.25))*20.0, d));
-	//col = mix(col, irisB, smoothstep(0.4, 20.0, d));
-	// col = mix(col, irisB, pattern(abs(p*1.0) - u_time*0.1));
-
-	// // // White streaks
-	// float a = atan(abs(p.y-cPos.y), p.x-cPos.x)*1.5;
-	// a += 0.02*fbm4(5.0*p + u_time*1.0);
-	// f = smoothstep(abs(sin(u_time*0.25))*0.001, 1.0, fbm4(vec2(20.0*a, abs(sin(u_time*0.25))*5.0*d)));
-	// col = mix(col, irisC, f);
-
-	// // // Dark streaks
-	// f = smoothstep(0.4, 0.9, fbm4(vec2(15.0*a, 15.0*d)));
-	// col *= 1.0-0.5*f;
-	// col *= 1.0-0.1*smoothstep(0.6,0.8,d);	
+    colB.r = colB.r + sin(u_time*0.1) * d * 0.3; 
+    colB.g = colB.g + cos(u_time*0.1) * d * 0.3; 
+    colB.b = colB.b + sin(u_time*0.1) * d * 0.3; 
+    
+    colC.r = colC.r + sin(u_time*0.2) * d * 0.6; 
+    colC.g = colC.g + cos(u_time*0.2) * d * 0.6; 
+    colC.b = colC.r + sin(u_time*0.2) * d * 0.6; 
 	
-	// [Note] col here should be the color of the background + iris
-	//col = mix(col, pupilColor, smoothstep(d, d + pupilBlurDistance, rad_pupil));
+    patternSeed = clamp(rand(p + lowerLid + upperLid), -1.0, 1.0);
+    
+    float f = clamp((fbm4(abs(patternSeed*(p-cPos)/10.0) + pattern(abs((p-cPos)*5.0)) - u_time*(upperLid+lowerLid)*.06)), 0.0, 1.0);
+    col = mix(colA, colB, smoothstep(patternSeed/10.0, 0.5, f));
+    col = mix(col, colC, smoothstep(patternSeed/10.0, 1.0, f));
 
 	// Eyelids
-	col = col*l*u;
+	col = col* l * u;
 	
 	gl_FragColor = vec4(col,1.0);
 }
