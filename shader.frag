@@ -9,7 +9,7 @@ precision highp float;
 // ------------------------------------------------------- //
 uniform float u_time;
 uniform vec2 u_resolution;
-uniform vec2 u_position;
+uniform vec2 u_position; 
 
 // Since I can't send in the parameters in this. 
 //vec2 u_position = vec2(250.0, 250.0);
@@ -50,10 +50,10 @@ float pattern(in vec2 p) {
 
 // Interleaving colors. 
 vec3 col = vec3(1.0); 
-vec3 colA = vec3(0.859, 0.11, 0.424);  // Fuscia
-vec3 colB = vec3(0.965, 0.353, 0.584); // Pink
-vec3 colC = vec3(0.98, 0.757, 0.192);  // Mustard Yellow
-vec3 colD = vec3(0.132,0.740,0.605); 
+vec3 colA = vec3(0.859, 0.11, 0.424); // Fuscia
+vec3 colB = vec3(0.867, 0.18, 0.318); // Amaranth
+vec3 colC = vec3(0.98, 0.757, 0.192); // Mustard Yellow
+vec3 colD = vec3(0.937, 0.624, 0.569); // Peach
 
 // Initial value. 
 float patternSeed = 0.5; 
@@ -83,6 +83,8 @@ void main(void)
 	float upperLid = step(-1.0 + cos(u_time*0.10)*2.05, 1.0-p.y);
 	vec3 u = vec3(upperLid); 
 
+    patternSeed = clamp(rand(p + lowerLid + upperLid), -1.0, 1.0);
+    
     colB.r = colB.r + sin(u_time*0.1) * d * 0.3; 
     colB.g = colB.g + cos(u_time*0.1) * d * 0.3; 
     colB.b = colB.b + sin(u_time*0.1) * d * 0.3; 
@@ -90,12 +92,15 @@ void main(void)
     colC.r = colC.r + sin(u_time*0.2) * d * 0.6; 
     colC.g = colC.g + cos(u_time*0.2) * d * 0.6; 
     colC.b = colC.b + sin(u_time*0.2) * d * 0.6; 
-	
-    patternSeed = clamp(rand(p + lowerLid + upperLid), -1.0, 1.0);
     
-    float f = clamp((fbm4(abs(patternSeed*(p-cPos)/20.0) + pattern(abs((p-cPos)*10.0)) - u_time*(upperLid+lowerLid)*.06)), 0.0, 1.0);
-    col = mix(colA, colB, smoothstep(patternSeed/10.0, 0.5, f));
+    colD.r = colD.r + atan(u_time*0.01) * d * 1.0; 
+    colD.g = colD.g + atan(u_time*0.01) * d * 0.6; 
+    colD.b = colD.b + atan(u_time*0.01) * d * 0.4;     
+    
+    float f = clamp((fbm4(abs(patternSeed*(p-cPos)/20.0) + pattern(abs((p-cPos)*8.0)) - u_time*(upperLid+lowerLid)*.06)), 0.0, 1.0);
+    col = mix(colA, colB, smoothstep(patternSeed/10.0, 0.4, f));
     col = mix(col, colC, smoothstep(patternSeed/10.0, 1.0, f));
+    col = mix(col, colD, smoothstep(patternSeed/10.0, 1.0, f));
 
 	// Eyelids
 	col = col* l * u;
