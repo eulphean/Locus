@@ -9,15 +9,15 @@ precision highp float;
 // ------------------------------------------------------- //
 uniform float u_time;
 uniform vec2 u_resolution;
-uniform vec2 u_position; 
+uniform vec2 u_position;
 
 // Since I can't send in the parameters in this. 
-// vec2 u_position = vec2(250.0, 250.0);
+//vec2 u_position = vec2(250.0, 250.0);
 
 // ------------------------------------------------------- //
 // MOTION
 // ------------------------------------------------------- //
-mat2 m = mat2( 0.444,  1.224, -1.280,  0.400); 
+mat2 m = mat2( 0.444,  1.312, -1.280,  0.400); 
 // Change these values when the eye closes. 
 
 float rand(vec2 n) { 
@@ -89,11 +89,11 @@ void main(void)
     
     colC.r = colC.r + sin(u_time*0.2) * d * 0.6; 
     colC.g = colC.g + cos(u_time*0.2) * d * 0.6; 
-    colC.b = colC.r + sin(u_time*0.2) * d * 0.6; 
+    colC.b = colC.b + sin(u_time*0.2) * d * 0.6; 
 	
     patternSeed = clamp(rand(p + lowerLid + upperLid), -1.0, 1.0);
     
-    float f = clamp((fbm4(abs(patternSeed*(p-cPos)/10.0) + pattern(abs((p-cPos)*5.0)) - u_time*(upperLid+lowerLid)*.06)), 0.0, 1.0);
+    float f = clamp((fbm4(abs(patternSeed*(p-cPos)/20.0) + pattern(abs((p-cPos)*10.0)) - u_time*(upperLid+lowerLid)*.06)), 0.0, 1.0);
     col = mix(colA, colB, smoothstep(patternSeed/10.0, 0.5, f));
     col = mix(col, colC, smoothstep(patternSeed/10.0, 1.0, f));
 
