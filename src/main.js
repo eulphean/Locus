@@ -22,7 +22,7 @@ function setup() {
   sandbox = new GlslCanvas(canvas); 
   noCanvas();
 
-  noCursor();
+//  requestPointerLock();
   
   // Start tracking time. 
   // curTime = millis(); 
@@ -53,4 +53,15 @@ function draw() {
   // }
 
   sandbox.setUniform("u_position", currentPosition.x, currentPosition.y);
+}
+
+function windowResized() {
+  var canvas = document.getElementById("glslCanvas");
+  canvasSize = [windowWidth, windowHeight];
+
+  // Set the starting position. 
+  currentPosition.set(canvasSize[0]/2, canvasSize[1]/2); 
+
+  // Resize canvas. 
+  canvas.width = canvasSize[0]; canvas.height = canvasSize[1]; 
 }
