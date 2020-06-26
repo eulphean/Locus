@@ -33,7 +33,7 @@ function setup() {
   // curTime = millis(); 
 
   isInterpolating = false; 
-  startRecording();
+  // startRecording();
 }
 
 // ------------------------------- Sketch Draw (loop) ------------------------
