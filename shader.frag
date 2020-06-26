@@ -103,7 +103,7 @@ void main(void)
     col = mix(col, colD, smoothstep(patternSeed/10.0, 1.0, f));
 
 	// Eyelids
-	col = col* l * u;
+	//col = col* l * u;
 	
 	gl_FragColor = vec4(col,1.0);
 }
