@@ -8,6 +8,7 @@ precision highp float;
 // INNER SITE OF MY EXISTENCE.
 // ------------------------------------------------------- //
 uniform float u_time;
+uniform float u_seed; 
 uniform vec2 u_resolution;
 uniform vec2 u_position; 
 
@@ -17,7 +18,7 @@ uniform vec2 u_position;
 // ------------------------------------------------------- //
 // MOTION
 // ------------------------------------------------------- //
-mat2 m = mat2( 0.444,  1.312, -1.280,  0.400); 
+mat2 m = mat2( 0.15,  2.5, -0.2,  0.1); 
 // Change these values when the eye closes. 
 
 float rand(vec2 n) { 
@@ -56,7 +57,7 @@ vec3 colC = vec3(0.98, 0.757, 0.192); // Mustard Yellow
 vec3 colD = vec3(0.937, 0.624, 0.569); // Peach
 
 // Initial value. 
-float patternSeed = 0.5; 
+float patternSeed = u_seed;  
 // ------------------------------------------------------- //
 // BEGIN.
 // ------------------------------------------------------- //
@@ -97,7 +98,7 @@ void main(void)
     colD.g = colD.g + atan(u_time*0.01) * d * 0.6; 
     colD.b = colD.b + atan(u_time*0.01) * d * 0.4;     
     
-    float f = clamp((fbm4(abs(patternSeed*(p-cPos)/20.0) + pattern(abs((p-cPos)*8.0)) - u_time*(upperLid+lowerLid)*.06)), 0.0, 1.0);
+    float f = clamp((fbm4(abs(patternSeed*(p-cPos)/30.0) + pattern(abs((p-cPos)*8.0)) - u_time*(upperLid+lowerLid)*.06)), 0.0, 1.0);
     col = mix(colA, colB, smoothstep(patternSeed/10.0, 0.4, f));
     col = mix(col, colC, smoothstep(patternSeed/10.0, 1.0, f));
     col = mix(col, colD, smoothstep(patternSeed/10.0, 1.0, f));

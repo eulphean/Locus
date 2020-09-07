@@ -16,9 +16,14 @@
   </head>
   <body>  
     <div id='container'>
-      <canvas id="glslCanvas" data-fragment-url="shader.frag" width="100" height="100"></canvas>
-      <!-- <div class='upperLid'></div>
-      <div class='lowerLid'></div> -->
+      <div id="canvasRow">
+        <canvas id="glslCanvasA" data-fragment-url="shader0.frag" width="100" height="100"></canvas>
+        <canvas id="glslCanvasB" data-fragment-url="shader1.frag" width="100" height="100"></canvas>
+      </div>
+      <div id="canvasRow">
+        <canvas id="glslCanvasC" data-fragment-url="shader2.frag" width="100" height="100"></canvas>
+        <canvas id="glslCanvasD" data-fragment-url="shader3.frag" width="100" height="100"></canvas>
+      </div>
     </div>
   </body>
 </html>

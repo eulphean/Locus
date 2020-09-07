@@ -1,39 +1,44 @@
-let eyelid; 
-var sandbox; 
-let curTime; 
-
-let canvasSize;
-let currentPosition;
-let newPosition; 
-let isInterpolating; 
-
-var canvas; 
+// Array for shader sandboxes and canvases. 
+var sandbox = []; 
+var canvas = []; 
 
 var stream; var recordedChunks = []; var mediaRecorder; 
 var options = { mimeType: 'video/webm; codecs=vp9' };
 // ------------------------------- Sketch Setup ------------------------------
 function setup() {
-  currentPosition = createVector(0, 0); 
-  newPosition = createVector(0, 0);
+  canvas[0] = document.getElementById("glslCanvasA"); 
+  canvas[1] = document.getElementById("glslCanvasB"); 
+  canvas[2] = document.getElementById("glslCanvasC"); 
+  canvas[3] = document.getElementById("glslCanvasD"); 
 
-  canvas = document.getElementById("glslCanvas");
-  canvasSize = [windowWidth, windowHeight];
+  // 2 canvases one of top of each other. 
+  let canvasSize = [windowWidth/2, windowHeight/2];
 
-  // Set the starting position. 
-  currentPosition.set(canvasSize[0]/2, canvasSize[1]/2); 
+  // Initialize canvases
+  for (var i = 0; i < 4; i++) {
+    canvas[i].width = canvasSize[0]; 
+    canvas[i].height = canvasSize[1];
+  }
 
-  // Resize canvas. 
-  canvas.width = canvasSize[0]; canvas.height = canvasSize[1]; 
-  sandbox = new GlslCanvas(canvas); 
+  // Initialize shader sandboxes
+  for (var i = 0; i < 4; i++) {
+    sandbox[i] = new GlslCanvas(canvas[i]); 
+  }
+  
   noCanvas();
 
-  isInterpolating = false; 
+  for (var i = 0; i < 4; i++) {
+    sandbox[i].setUniform("u_seed", Math.random());
+  }
+
   // startRecording();
 }
 
 // ------------------------------- Sketch Draw (loop) ------------------------
 function draw() {
-  sandbox.setUniform("u_position", currentPosition.x, currentPosition.y);
+  for (var i = 0; i < 4; i++) {
+    sandbox[i].setUniform("u_position", canvas[i].width/2, canvas[i].height/2);
+  }
 }
 
 function windowResized() {

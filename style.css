@@ -4,47 +4,16 @@ body {
     overflow: hidden;
 }
 
-@keyframes upperAnimation {
-    from {top: 0%;}
-    to {top: -50%;}
-}
-
-@keyframes lowerAnimation {
-    from {top: 50%;}
-    to {top: 100%;}
-}
-
-
-.upperLid {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%; 
-    height: 50%; 
-    background-color: black;
-    z-index: 1;
-    animation-name: upperAnimation;
-    animation-duration: 10s;
-    animation-timing-function: ease-in;
-    animation-fill-mode: forwards;
-    animation-delay: 1s;
-}
-
-.lowerLid {
-    position: fixed; 
-    width: 100%; 
-    height: 50%; 
-    top: 50%;
-    left: 0px; 
-    background-color: black;
-    z-index: 1;
-    animation-name: lowerAnimation;
-    animation-duration: 10s;
-    animation-timing-function: ease-in;
-    animation-fill-mode: forwards;
-    animation-delay: 1s;
-}
-
 #glslCanvas {
-    z-index: 0;;
+    z-index: 0;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+}
+
+#canvasRow {
+    display: flex;
+    flex-direction: row;
 }
