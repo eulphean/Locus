@@ -27,37 +27,12 @@ function setup() {
   sandbox = new GlslCanvas(canvas); 
   noCanvas();
 
-//  requestPointerLock();
-  
-  // Start tracking time. 
-  // curTime = millis(); 
-
   isInterpolating = false; 
   // startRecording();
 }
 
 // ------------------------------- Sketch Draw (loop) ------------------------
 function draw() {
-  // if (millis() - curTime > 10000 && isInterpolating === false) {
-  //   newPosition.set(random(canvasSize[0]-50, canvasSize[1]-50));
-  //   let d = newPosition.dist(currentPosition); 
-  //   while (d < windowWidth/2) {
-  //     newPosition.set(random(canvasSize[0], canvasSize[1]));
-  //     d = newPosition.dist(currentPosition);
-  //   }
-  //   // Start interpolation
-  //   isInterpolating = true;
-  // }
-
-  // if (isInterpolating) {
-  //   currentPosition = currentPosition.lerp(newPosition, 0.001); 
-  //   let d = p5.Vector.dist(currentPosition, newPosition); 
-  //   if (d < 50.0) {
-  //     isInterpolating = false; 
-  //     curTime = millis(); // Reset time. 
-  //   }
-  // }
-
   sandbox.setUniform("u_position", currentPosition.x, currentPosition.y);
 }
 
@@ -100,11 +75,11 @@ function startRecording() {
   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
   // mediaRecorder.onstop = handleStop;
   mediaRecorder.ondataavailable = handleDataAvailable;
-  mediaRecorder.start(500); // Every blob is worth 1second of data.
+  mediaRecorder.start(100); // Every blob is worth 1second of data.
   console.log('MediaRecorder started', mediaRecorder);
   // startButton.innerHTML = 'Stop Recording'
 
-  setTimeout(stopRecording, 5*60*1000); // After number of seconds. 
+  setTimeout(stopRecording, 1*60*1000); // After number of seconds. 
 } 
 
 function download() {
