@@ -10,28 +10,28 @@ function setup() {
   canvas[1] = document.getElementById("glslCanvasB"); 
   canvas[2] = document.getElementById("glslCanvasC"); 
   canvas[3] = document.getElementById("glslCanvasD"); 
-  canvas[4] = document.getElementById("glslCanvasE"); 
-  canvas[5] = document.getElementById("glslCanvasF"); 
-  canvas[6] = document.getElementById("glslCanvasG"); 
-  canvas[7] = document.getElementById("glslCanvasH"); 
+  // canvas[4] = document.getElementById("glslCanvasE"); 
+  // canvas[5] = document.getElementById("glslCanvasF"); 
+  // canvas[6] = document.getElementById("glslCanvasG"); 
+  // canvas[7] = document.getElementById("glslCanvasH"); 
 
   // 4 canvases on the top and 4 below
-  let canvasSize = [windowWidth/4, windowHeight/2];
+  let canvasSize = [windowWidth/2, windowHeight/2];
 
   // Initialize canvases
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 4; i++) {
     canvas[i].width = canvasSize[0]; 
     canvas[i].height = canvasSize[1];
   }
 
   // Initialize shader sandboxes
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 4; i++) {
     sandbox[i] = new GlslCanvas(canvas[i]); 
   }
   
   noCanvas();
 
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 4; i++) {
     sandbox[i].setUniform("u_seed", Math.random());
   }
 
@@ -40,7 +40,7 @@ function setup() {
 
 // ------------------------------- Sketch Draw (loop) ------------------------
 function draw() {
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 4; i++) {
     sandbox[i].setUniform("u_position", canvas[i].width/2, canvas[i].height/2);
   }
 }
